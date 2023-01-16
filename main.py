@@ -1,4 +1,4 @@
-import readSerial
+from readSerial import readSerial
 from flask import Flask, jsonify
 
 # Initialize Flask app for REST API
