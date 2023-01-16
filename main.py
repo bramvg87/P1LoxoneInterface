@@ -9,7 +9,7 @@ from flask import Flask, jsonify
 serialport = '/dev/ttyUSB0'
 
 # Enable debug if needed:
-debug = True
+debug = False
 
 # Add/update OBIS codes here:
 obiscodes = {
@@ -137,6 +137,7 @@ def readP1():
                             output.append(r)
                             if debug:
                                 print(f"desc:{r[0]}, val:{r[1]}, u:{r[2]}")
+                    return(output)
         except KeyboardInterrupt:
             print("Something went wrong")
             ser.close()
@@ -159,6 +160,7 @@ def get_energy_data():
     #power = float(match.group("power"))
 
     energy_data = readP1()
+    print(energy_data)
     # Return data as JSON
     return jsonify(energy_data)
 
