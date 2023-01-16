@@ -15,11 +15,14 @@ import time
 import sys
 import crcmod.predefined
 
+from tabulate import tabulate
+import json
+
 # Change your serial port here:
 serialport = '/dev/ttyUSB0'
 
 # Enable debug if needed:
-debug = False
+debug = True
 
 # Add/update OBIS codes here:
 obiscodes = {
@@ -112,8 +115,7 @@ def parsetelegramline(p1line):
         return ()
 
 
-def readP1():
-    # Open serial connection to P1 energy meter
+def main():
     ser = serial.Serial(serialport, 115200, xonxoff=1)
     p1telegram = bytearray()
     while True:
@@ -147,11 +149,26 @@ def readP1():
                             output.append(r)
                             if debug:
                                 print(f"desc:{r[0]}, val:{r[1]}, u:{r[2]}")
+                    print(tabulate(output,
+                                   headers=['Description', 'Value', 'Unit'],
+                                   tablefmt='github'))
+                    print("Printing output jsonified:")
+                    print(json.dumps(output))
+                    print("Pausing now for 10 seconds")
+                    time.sleep(10)
         except KeyboardInterrupt:
-            print("Something went wrong")
+            print("Stopping...")
             ser.close()
             break
         except:
+            if debug:
+                print(traceback.format_exc())
+            # print(traceback.format_exc())
             print ("Something went wrong...")
             ser.close()
+        # flush the buffer
         ser.flush()
+
+
+if __name__ == '__main__':
+    main()
