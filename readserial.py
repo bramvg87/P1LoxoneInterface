@@ -11,11 +11,12 @@
 
 import serial
 import re
-
+import time
 import sys
 import crcmod.predefined
 
 from tabulate import tabulate
+from flask import jsonify
 
 # Change your serial port here:
 serialport = '/dev/ttyUSB0'
@@ -151,6 +152,10 @@ def main():
                     print(tabulate(output,
                                    headers=['Description', 'Value', 'Unit'],
                                    tablefmt='github'))
+                    print("Printing output jsonified:")
+                    print(jsonify(output))
+                    print("Pausing now for 10 seconds")
+                    time.sleep(10)
         except KeyboardInterrupt:
             print("Stopping...")
             ser.close()
@@ -163,6 +168,7 @@ def main():
             ser.close()
         # flush the buffer
         ser.flush()
+
 
 if __name__ == '__main__':
     main()
