@@ -16,7 +16,7 @@ import sys
 import crcmod.predefined
 
 from tabulate import tabulate
-from flask import jsonify
+import json
 
 # Change your serial port here:
 serialport = '/dev/ttyUSB0'
@@ -153,7 +153,7 @@ def main():
                                    headers=['Description', 'Value', 'Unit'],
                                    tablefmt='github'))
                     print("Printing output jsonified:")
-                    print(jsonify(output))
+                    print(json.dumps(output))
                     print("Pausing now for 10 seconds")
                     time.sleep(10)
         except KeyboardInterrupt:
