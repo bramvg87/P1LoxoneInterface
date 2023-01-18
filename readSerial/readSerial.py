@@ -146,6 +146,7 @@ def readP1():
                             output.append(r)
                             if debug:
                                 print(f"desc:{r[0]}, val:{r[1]}, u:{r[2]}")
+                    ser.close()                    
                     return(output)
         except KeyboardInterrupt:
             print("Something went wrong")
